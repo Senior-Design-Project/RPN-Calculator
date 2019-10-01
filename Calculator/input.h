@@ -6,6 +6,7 @@ enum OPERAND {PLUS, MINUS, TIMES, DIVIDE};
 
 OPERAND input( double (&stack)[4], Keypad &calculatorPad, LiquidCrystal_I2C &lcd ) {
   char string[17] = "";
+  char blank[17] = "\0";
   while(1) {
     char pressed;
     pressed = calculatorPad.getKey();
@@ -16,7 +17,7 @@ OPERAND input( double (&stack)[4], Keypad &calculatorPad, LiquidCrystal_I2C &lcd
         stack[2] = stack[1];
         stack[1] = stack[0];
         stack[0] = atof(string);
-        strcpy(string, "");
+        strcpy(string, blank);
         break;
       case '+':
         // Return with PLUS
@@ -24,7 +25,7 @@ OPERAND input( double (&stack)[4], Keypad &calculatorPad, LiquidCrystal_I2C &lcd
         stack[2] = stack[1];
         stack[1] = stack[0];
         stack[0] = atof(string);
-        strcpy(string, "");
+        strcpy(string, blank);
         return PLUS;
         break;
       case '-':
@@ -33,7 +34,7 @@ OPERAND input( double (&stack)[4], Keypad &calculatorPad, LiquidCrystal_I2C &lcd
         stack[2] = stack[1];
         stack[1] = stack[0];
         stack[0] = atof(string);
-        strcpy(string, "");
+        strcpy(string, blank);
         return MINUS;
         break;
       case '*':
@@ -42,7 +43,7 @@ OPERAND input( double (&stack)[4], Keypad &calculatorPad, LiquidCrystal_I2C &lcd
         stack[2] = stack[1];
         stack[1] = stack[0];
         stack[0] = atof(string);
-        strcpy(string, "");
+        strcpy(string, blank);
         return TIMES;
         break;
       case '/':
@@ -51,7 +52,7 @@ OPERAND input( double (&stack)[4], Keypad &calculatorPad, LiquidCrystal_I2C &lcd
         stack[2] = stack[1];
         stack[1] = stack[0];
         stack[0] = atof(string);
-        strcpy(string, "");
+        strcpy(string, blank);
         return DIVIDE;
         break;
       case 0:
@@ -59,7 +60,9 @@ OPERAND input( double (&stack)[4], Keypad &calculatorPad, LiquidCrystal_I2C &lcd
         break;
       default:
         // Add character to the string
-        string[strlen(string)] = pressed;
+        int len = strlen(string);
+        string[len] = pressed;
+        string[len+1] = '\0';
         lcd.clear();
         lcd.print(string);
         break;

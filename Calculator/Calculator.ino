@@ -2,6 +2,8 @@
 #include <LiquidCrystal_I2C.h>
 #include <Keypad.h>
 #include "input.h"
+#include "math.h"
+#include "output.h"
 
 const byte ROWS = 4; 
 const byte COLS = 4; 
@@ -37,7 +39,9 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-  int op = input( stack, calculatorPad, lcd );
+  OPERAND op = input( stack, calculatorPad, lcd );
+  math( stack, op );
+  output( stack, lcd );
   
 //  char calcPadOld = 0;
 //  char calcPad = calculatorPad.getKey();
@@ -54,5 +58,5 @@ void loop() {
 //    lcd.clear();
 //  }
 //  calcPadOld = calcPad;
-  }
+}
   
