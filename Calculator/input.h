@@ -21,38 +21,46 @@ OPERAND input( double (&stack)[4], Keypad &calculatorPad, LiquidCrystal_I2C &lcd
         break;
       case '+':
         // Return with PLUS
-        stack[3] = stack[2];
-        stack[2] = stack[1];
-        stack[1] = stack[0];
-        stack[0] = atof(string);
-        strcpy(string, blank);
+        if( strcmp(string, blank) != 0 ) {
+          stack[3] = stack[2];
+          stack[2] = stack[1];
+          stack[1] = stack[0];
+          stack[0] = atof(string);
+          strcpy(string, blank);
+        }
         return PLUS;
         break;
       case '-':
         // Return with MINUS
-        stack[3] = stack[2];
-        stack[2] = stack[1];
-        stack[1] = stack[0];
-        stack[0] = atof(string);
-        strcpy(string, blank);
+        if( strcmp(string, blank) != 0 ) {
+          stack[3] = stack[2];
+          stack[2] = stack[1];
+          stack[1] = stack[0];
+          stack[0] = atof(string);
+          strcpy(string, blank);
+        }
         return MINUS;
         break;
       case '*':
         // Return with TIMES
-        stack[3] = stack[2];
-        stack[2] = stack[1];
-        stack[1] = stack[0];
-        stack[0] = atof(string);
-        strcpy(string, blank);
+        if( strcmp(string, blank) != 0 ) {
+          stack[3] = stack[2];
+          stack[2] = stack[1];
+          stack[1] = stack[0];
+          stack[0] = atof(string);
+          strcpy(string, blank);
+        }
         return TIMES;
         break;
       case '/':
         // Return with DIVIDE
-        stack[3] = stack[2];
-        stack[2] = stack[1];
-        stack[1] = stack[0];
-        stack[0] = atof(string);
-        strcpy(string, blank);
+        if( strcmp(string, blank) != 0 ) {
+          stack[3] = stack[2];
+          stack[2] = stack[1];
+          stack[1] = stack[0];
+          stack[0] = atof(string);
+          strcpy(string, blank);
+        }
         return DIVIDE;
         break;
       case 0:

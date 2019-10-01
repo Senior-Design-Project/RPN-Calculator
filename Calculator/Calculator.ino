@@ -42,6 +42,10 @@ void loop() {
   OPERAND op = input( stack, calculatorPad, lcd );
   math( stack, op );
   output( stack, lcd );
+  Serial.print(stack[0]);
+  Serial.print(stack[1]);
+  Serial.print(stack[2]);
+  Serial.print(stack[3]);
   
 //  char calcPadOld = 0;
 //  char calcPad = calculatorPad.getKey();
