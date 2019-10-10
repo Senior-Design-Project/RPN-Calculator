@@ -1,17 +1,21 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #include <Keypad.h>
+#include <string.h>
 
 enum OPERAND {PLUS, MINUS, TIMES, DIVIDE};
 
 bool isStringValid(char string[]) {
   // Check the string to search for multiple decimal points, which is invalid
-  if(strstr( string, ".." ))
-    return false;
-  if( strtok( string, "." ) != NULL ) {
-    if( strtok( NULL, "." ) != NULL ) {
+  Serial.print(string);
+  Serial.print('\n');
+  char *temp = strrchr(string, '.');
+  if( temp != NULL ) {
+    string[temp-string] = '\0';
+    Serial.print(string);
+    temp = strchr(string, '.');
+    if( temp != NULL )
       return false;
-    }
   }
   return true;
 };
