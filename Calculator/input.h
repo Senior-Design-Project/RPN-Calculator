@@ -4,6 +4,24 @@
 
 enum OPERAND {PLUS, MINUS, TIMES, DIVIDE};
 
+bool isStringValid(char string[]) {
+  // Check the string to search for multiple decimal points, which is invalid
+  if(strstr( string, ".." ))
+    return false;
+  if( strtok( string, "." ) != NULL ) {
+    if( strtok( NULL, "." ) != NULL ) {
+      return false;
+    }
+  }
+  return true;
+};
+
+void printError(LiquidCrystal_I2C &lcd) {
+  lcd.clear();
+  lcd.print("Ope!");
+  return;
+};
+
 OPERAND input( double (&stack)[4], Keypad &calculatorPad, LiquidCrystal_I2C &lcd ) {
   char string[17] = "";
   char blank[17] = "\0";
@@ -12,56 +30,75 @@ OPERAND input( double (&stack)[4], Keypad &calculatorPad, LiquidCrystal_I2C &lcd
     pressed = calculatorPad.getKey();
     switch(pressed) {
       case '#':
-        // Add to stack
-        stack[3] = stack[2];
-        stack[2] = stack[1];
-        stack[1] = stack[0];
-        stack[0] = atof(string);
+        if( isStringValid( string ) ) {
+          // Add to stack
+          stack[3] = stack[2];
+          stack[2] = stack[1];
+          stack[1] = stack[0];
+          stack[0] = atof(string);
+        } else {
+          printError(lcd);
+        }
         strcpy(string, blank);
         break;
       case '+':
         // Return with PLUS
-        if( strcmp(string, blank) != 0 ) {
-          stack[3] = stack[2];
-          stack[2] = stack[1];
-          stack[1] = stack[0];
-          stack[0] = atof(string);
-          strcpy(string, blank);
+        if( isStringValid( string ) ) {
+          if( strcmp(string, blank) != 0) {
+            stack[3] = stack[2];
+            stack[2] = stack[1];
+            stack[1] = stack[0];
+            stack[0] = atof(string);
+          }
+          return PLUS;
         }
-        return PLUS;
+        printError(lcd);
+        strcpy(string, blank);
         break;
       case '-':
         // Return with MINUS
-        if( strcmp(string, blank) != 0 ) {
-          stack[3] = stack[2];
-          stack[2] = stack[1];
-          stack[1] = stack[0];
-          stack[0] = atof(string);
-          strcpy(string, blank);
+        if( isStringValid( string ) ) {
+          if( strcmp(string, blank) != 0 ) {
+            stack[3] = stack[2];
+            stack[2] = stack[1];
+            stack[1] = stack[0];
+            stack[0] = atof(string);
+            strcpy(string, blank);
+          }
+          return MINUS;
         }
-        return MINUS;
+        printError(lcd);
+        strcpy(string, blank);
         break;
       case '*':
         // Return with TIMES
-        if( strcmp(string, blank) != 0 ) {
-          stack[3] = stack[2];
-          stack[2] = stack[1];
-          stack[1] = stack[0];
-          stack[0] = atof(string);
-          strcpy(string, blank);
+        if( isStringValid( string ) ) {
+          if( strcmp(string, blank) != 0 ) {
+            stack[3] = stack[2];
+            stack[2] = stack[1];
+            stack[1] = stack[0];
+            stack[0] = atof(string);
+            strcpy(string, blank);
+          }
+          return TIMES;
         }
-        return TIMES;
+        printError(lcd);
+        strcpy(string, blank);
         break;
       case '/':
         // Return with DIVIDE
-        if( strcmp(string, blank) != 0 ) {
-          stack[3] = stack[2];
-          stack[2] = stack[1];
-          stack[1] = stack[0];
-          stack[0] = atof(string);
-          strcpy(string, blank);
+        if( isStringValid( string ) ) {
+          if( strcmp(string, blank) != 0 ) {
+            stack[3] = stack[2];
+            stack[2] = stack[1];
+            stack[1] = stack[0];
+            stack[0] = atof(string);
+            strcpy(string, blank);
+          }
+          return DIVIDE;
         }
-        return DIVIDE;
+        printError(lcd);
+        strcpy(string,blank);
         break;
       case 0:
         // Null character, do nothing
