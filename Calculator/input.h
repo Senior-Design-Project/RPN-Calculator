@@ -9,11 +9,13 @@ bool isStringValid(char string[]) {
   // Check the string to search for multiple decimal points, which is invalid
   Serial.print(string);
   Serial.print('\n');
-  char *temp = strrchr(string, '.');
+  char str[17];
+  strcpy(str,string);
+  char *temp = strrchr(str, '.');
   if( temp != NULL ) {
-    string[temp-string] = '\0';
-    Serial.print(string);
-    temp = strchr(string, '.');
+    str[temp-str] = '\0';
+    Serial.print(str);
+    temp = strchr(str, '.');
     if( temp != NULL )
       return false;
   }
